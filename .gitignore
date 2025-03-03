@@ -1,0 +1,6 @@
+/node_modules
+/dist
+
+# If you want to ignore all .parcel-cache folders (regardless of location), use .parcel-cache.
+# If you only want to ignore .parcel-cache in the root folder, use /.parcel-cache.
+.parcel-cache 

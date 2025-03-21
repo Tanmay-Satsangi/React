@@ -396,7 +396,7 @@ const resList = [
         city: "1",
         area: "Koramangala",
         totalRatingsString: "1000+ ratings",
-        cloudinaryImageId: "https://lh5.googleusercontent.com/p/AF1QipNbQ1_qT609Zub7T3XEZ7_JLDC4N5wFhc_cSk6R=w640-h640-n-k-no",
+        cloudinaryImageId: "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/x4uyxvihmg8qa3pddkgf",
         cuisines: ["Chinese", "Pan-Asian"],
         tags: [],
         costForTwo: 40000,

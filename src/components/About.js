@@ -2,28 +2,27 @@ import User from "./User";
 import UserClass from "./UserClass";
 import { Component } from "react";
 
-class About extends Component{
-    constructor() {
-        super()
-        console.log("Parent Component");
-    }
+class About extends Component {
+  constructor(props) {
+    super(props);
 
-    componentDidMount() {
-        console.log("Parent componentDidMount")
+    //console.log("Parent Constructor");
+  }
 
-    }
+  componentDidMount() {
+    //console.log("Parent Component Did Mount");
+  }
 
-    render() {
-        console.log("Parentrender")
-        return (
-            <div>
-                <h1>About Class Component</h1>
-                <h2>This is Namaste React Web series</h2>
-                <User name={"Tanmay (function)"} location={"Dehradun (function)"}/>
-                <UserClass name={"Tanmay (Class)"} location={ "Indore (Class)" } />
-            </div>
-        )
-    }
+  render() {
+    //console.log("Parent Render");
+    return (
+      <div>
+        <h1>About Class Component</h1>
+        <h2>This is Namaste React Web Series</h2>
+        <UserClass name={"First"} location={"Dehradun Class"} />
+      </div>
+    );
+  }
 }
 
 export default About;

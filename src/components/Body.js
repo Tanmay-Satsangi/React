@@ -1,37 +1,34 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
-import mockData from "../utils/mockData"
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 
 const Body = () => {
   // Local State Variable - Super powerful variable
-  const [listOfRestaurants, setListOfRestraunt] = useState(mockData);
-
-  const [filteredRestaurant, setFilteredRestaurant] = useState(mockData);
+  const [listOfRestaurants, setListOfRestraunt] = useState([]);
+  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+  console.log("filteredRestaurant: ", filteredRestaurant);
 
   const [searchText, setSearchText] = useState("");
 
-  console.log("Component Rendered");
   // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
   console.log("Body Rendered");
-  useEffect(() => {
-    console.log("Use Effect rendered");
-  }, [])
 
-  // This below code is used to fetch the API data. But due to CORS error i am not using the backend API.
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // const fetchData = async () => {
-  //   const data = await fetch(
-  //     "https://cors-anywhere.herokuapp.com/https://www.swiggy.com/api"
-  //   );
-  //   const json = await data.json();
-  //   // Optional Chaining
-  //   setListOfRestraunt(json?.data?.cards[2]?.data?.data?.cards);
-  //   setFilteredRestaurant(json?.data?.cards[2]?.data?.data?.cards);
-  // };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.695254&lng=75.822392&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+
+    const json = await data.json();
+
+    // Optional Chaining  
+    setListOfRestraunt(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    setFilteredRestaurant(json?.data.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  };
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -52,6 +49,7 @@ const Body = () => {
               // Filter the restraunt cards and update the UI
               // searchText
               console.log(searchText);
+
               const filteredRestaurant = listOfRestaurants.filter((res) =>
                 res.data.name.toLowerCase().includes(searchText.toLowerCase())
               );
@@ -66,7 +64,7 @@ const Body = () => {
           className="filter-btn"
           onClick={() => {
             const filteredList = listOfRestaurants.filter(
-              (res) => res.data.avgRating > 4
+              (res) => res.info.avgRating > 4
             );
             setListOfRestraunt(filteredList);
           }}
@@ -74,12 +72,15 @@ const Body = () => {
           Top Rated Restaurants
         </button>
       </div>
+
       <div className="res-container">
         {filteredRestaurant.map((restaurant) => (
-          // <RestaurantCard key={restaurant.data.id} resData={restaurant} />
-
-          <Link key={restaurant.data.id} to="/restaurant/123"><RestaurantCard  resData={restaurant} /></Link>
-          
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+            <RestaurantCard resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>

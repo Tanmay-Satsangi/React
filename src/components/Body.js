@@ -1,16 +1,19 @@
-import RestaurantCard from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus"
+import UserContext from "../utils/UserContext";
+import User from "./User";
 
 const Body = () => {
   // Local State Variable - Super powerful variable
   const [listOfRestaurants, setListOfRestraunt] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
-  console.log("filteredRestaurant: ", filteredRestaurant);
 
   const [searchText, setSearchText] = useState("");
+
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
   console.log("Body Rendered");
@@ -38,6 +41,8 @@ const Body = () => {
       <h1>Looks like you're offline!!. Please check your internet connection;</h1>
     )
   }
+
+  const {loggedInUser, setUserName } = useContext(UserContext);
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -83,7 +88,14 @@ const Body = () => {
             Top Rated Restaurants
           </button>
         </div>
-        
+
+        <div className="search m-4 p-4 flex items-center">
+          <label> UserName: </label>
+            <input className="border border-black p-2"
+              value={loggedInUser}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+        </div>
       </div>
 
       <div className="flex flex-wrap">
@@ -92,7 +104,8 @@ const Body = () => {
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            <RestaurantCard resData={restaurant} />
+            <RestaurantCard resData={restaurant}/>
+            
           </Link>
         ))}
       </div>

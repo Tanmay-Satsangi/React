@@ -1,6 +1,22 @@
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 import { CDN_URL } from "../utils/constants";
 
 const ItemList = ({items, dummy}) => {
+
+    const dispatch = useDispatch();
+
+    const handleAddItem = (items) => {
+        // Dispatch an action
+        dispatch(addItem(items));
+
+        // This call the addItem function in CartSlice and pass the params just like below
+        // {
+        //     payload: "pizza"
+        // }
+        // Also, this payload goes to the action params of the function
+    }
+
     return (
         <div> 
             {items.map(item => (
@@ -16,7 +32,8 @@ const ItemList = ({items, dummy}) => {
                     </div>
                     <div className="w-3/12 p-4">
                         <div className="absolute">
-                            <button className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg">Add +</button>
+                            <button className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg"
+                            onClick={() => handleAddItem(item)}>Add +</button>
                         </div>
                         <img src={CDN_URL + item.card.info.imageId} className="w-full"></img>
                     </div>
